@@ -1,4 +1,5 @@
 package com.bolsadeideas.springboot.backend.apirest.models.entity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,29 +12,36 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table( name = "clientes")
-public class Cliente  implements Serializable {
-
+@Table(name = "clientes")
+public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
 
+    @NotEmpty
+    @Size(min = 4, max = 12)
     @Column(nullable = false)
     private String nombre;
+    @NotEmpty
     private String apellido;
+    @NotEmpty
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
-    
+
     @Column(name = "create_at")
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         createAt = new Date();
     }
 
@@ -68,6 +76,7 @@ public class Cliente  implements Serializable {
     public void setCreateAt(final Date createAt) {
         this.createAt = createAt;
     }
+
     private static final long serialVersionUID = 1L;
 
     public String getEmail() {
@@ -79,4 +88,3 @@ public class Cliente  implements Serializable {
     }
 
 }
- 
